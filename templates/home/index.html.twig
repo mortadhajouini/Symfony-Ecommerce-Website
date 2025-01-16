@@ -1,0 +1,164 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue
+{% endblock %}
+
+{% block body %}{% endblock %}
+
+
+{% block home %}
+	<!-- Hero Start -->
+	<div class="container-fluid py-5 mb-5 hero-header">
+		<div class="container py-5">
+			<div class="row g-5 align-items-center">
+				<div class="col-md-12 col-lg-7">
+					<h1 class="mb-5 display-3 text-primary" >Meilleures offres</h1>
+					<h1 class="mb-5 display-3 text-primary" style="position: relative; left:150px;">Meilleures choix !!!</h1>
+
+				</div>
+				<div class="col-md-12 col-lg-5">
+					<div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
+						<div class="carousel-inner" role="listbox">
+							<div class="carousel-item active rounded">
+								<img src="img/hero-img-1.jpg" class="img-fluid w-100 h-100 bg-secondary rounded" alt="First slide">
+								
+							</div>
+							<div class="carousel-item rounded">
+								<img src="img/hero-img-2.jpg" class="img-fluid w-100 h-100 rounded" alt="Second slide">
+								
+							</div>
+						</div>
+						<button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							
+						</button>
+						<button class="carousel-control-next" type="button" data-bs-target="#carouselId" data-bs-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Hero End -->
+
+
+	<!-- Vesitable Shop Start-->
+	<div class="container-fluid vesitable py-5">
+		<div class="container py-5">
+			<h1 class="mb-0">Meilleures ventes</h1>
+			<div
+				class="owl-carousel vegetable-carousel justify-content-center">
+				<!-- item Start-->
+				{% for product in products %}
+					<div class="border border-primary rounded position-relative vesitable-item">
+						<div class="vesitable-img">
+							<img src="{{ asset('uploads/' ~ product.image) }}" alt="" class="img-fluid w-100 rounded-top" style="width: 100px; height: auto;">
+						</div>
+
+						<div class="p-4 rounded-bottom">
+							<h4>{{ product.name }}</h4>
+							<p>{{ product.description }}</p>
+							<div class="d-flex justify-content-between flex-lg-wrap">
+								<p class="text-dark fs-5 fw-bold mb-0">{{ product.price }}DT</p>
+								<a href="{{ path('app_cart_item_add_to_cart', {'productId': product.id}) }}" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
+									<i class="fa fa-shopping-bag me-2 text-primary"></i>
+									Ajouter au panier</a>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+				<!-- item End-->
+
+
+			</div>
+		</div>
+	</div>
+	<!-- Vesitable Shop End -->
+
+	<!-- Banner Section Start-->
+	<div class="container-fluid banner bg-secondary my-5">
+		<div class="container py-5">
+			<div class="row g-4 align-items-center">
+				<div class="col-lg-6">
+					<div class="py-4">
+						<h1 class="display-3 text-white">MSI GF63 Thin</h1>
+						<p class="fw-normal display-3 text-dark mb-4">dans notre magasin</p>
+						<p class="mb-4 text-dark">Écran 15.6" FHD (1920x1080), 144Hz, IPS - Processeur Intel Core i7-12650H 12éme génération, up to 4.7 Ghz, 24 Mo de mémoire cache - Mémoire 32 Go DDR4-3200 MHz - Disque 512 Go SSD M.2 NVMe PCIe - Carte Graphique NVIDIA GeForce RTX 2050, 4 Go de mémoire GDDR6...</p>
+						<a href="#" class="banner-btn btn border-2 border-white rounded-pill text-dark py-3 px-5">BUY</a>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="position-relative">
+						<img src="img/baner-1.png" class="img-fluid w-100 rounded" alt="">
+						<div class="d-flex align-items-center justify-content-center bg-white rounded-circle position-absolute" style="width: 140px; height: 140px; top: 0; left: 0;">
+							<h1 style="font-size: 100px;">2</h1>
+							<div class="d-flex flex-column">
+								<span class="h2 mb-0">899</span>
+								<span class="h4 text-muted mb-0">DT</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Banner Section End -->
+
+
+	<!-- Featurs Section Start -->
+	<div class="container-fluid featurs py-5">
+		<div class="container py-5">
+			<div class="row g-4">
+				<div class="col-md-6 col-lg-3">
+					<div class="featurs-item text-center rounded bg-light p-4">
+						<div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
+							<i class="fas fa-car-side fa-3x text-white"></i>
+						</div>
+						<div class="featurs-content text-center">
+							<h5>Livraison gratuite</h5>
+							<p class="mb-0">Sur commande de plus de 300DT</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-3">
+					<div class="featurs-item text-center rounded bg-light p-4">
+						<div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
+							<i class="fas fa-user-shield fa-3x text-white"></i>
+						</div>
+						<div class="featurs-content text-center">
+							<h5>Paiement de sécurité</h5>
+							<p class="mb-0">Paiement 100% sécurisé</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-3">
+					<div class="featurs-item text-center rounded bg-light p-4">
+						<div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
+							<i class="fas fa-exchange-alt fa-3x text-white"></i>
+						</div>
+						<div class="featurs-content text-center">
+							<h5>Retour sous 7 jours</h5>
+							<p class="mb-0">Garantie d'argent de 7 jours</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-3">
+					<div class="featurs-item text-center rounded bg-light p-4">
+						<div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
+							<i class="fa fa-phone-alt fa-3x text-white"></i>
+						</div>
+						<div class="featurs-content text-center">
+							<h5>Assistance 24h/24 et 7j/7</h5>
+							<p class="mb-0">Support à chaque fois rapide</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Featurs Section End -->
+
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}User index
+{% endblock %}
+
+{% block body %}
+
+	<div class="col-12 tm-block-col">
+		<div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll ">
+			<h2 class="tm-block-title">List des utilisateurs</h2>
+			<table class="table">
+
+				<thead>
+
+					<tr>
+						<th>Email</th>
+						<th>Type</th>
+						<th>
+							Modifier
+						</th>
+						<th>Supprimer</th>
+					</tr>
+				</thead>
+			</thead>
+			<tbody>
+				{% for user in users %}
+					<tr>
+						<td>{{ user.email }}</td>
+						<td>
+							{% if 'ROLE_ADMIN' in user.roles %}
+								Administateur
+							{% else %}
+								Utilisateur
+							{% endif %}
+						</td>
+
+						<td class="text-center">
+							<div class="d-flex">
+								{% if 'ROLE_ADMIN' in user.roles %}
+									{% if app.user.id != user.id %}
+										<a href="{{ path('remove_admin_role', {'userId': user.id}) }}" class="btn btn-danger btn-circle" title="Remove Admin Role">
+											<i class="fas fa-user-times"></i>
+										</a>
+									{% endif %}
+								{% else %}
+									<a href="{{ path('give_admin_role', {'userId': user.id}) }}" class="btn btn-primary btn-circle" title="Give Admin Role">
+										<i class="fas fa-user-shield"></i>
+									</a>
+								{% endif %}
+							</div>
+						</td>
+						<td class="text-center">
+							{% if app.user.id != user.id %}
+								<div class="d-flex">
+									{{ include('user/_delete_form.html.twig') }}
+								</div>
+							{% endif %}
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="5">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+
+		</table>
+	</div>
+</div>{% endblock %}

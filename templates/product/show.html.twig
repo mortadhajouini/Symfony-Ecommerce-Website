@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product
+{% endblock %}
+
+{% block home %}
+	<!-- Single Product Start -->
+	<div class="container-fluid py-5 mt-5">
+		<div class="container py-5">
+			<div class="row g-4 mb-5">
+				<div class="col-lg-8 col-xl-9">
+					<div class="row g-4">
+						<div class="col-lg-6">
+							<div class="border rounded">
+								<a href="#">
+									{% if product.image %}
+										<img src="{{ asset('uploads/' ~ product.image) }}" alt="Product Image" style="width: 406px; height: 366px;">
+									{% else %}
+										<p>No image available</p>
+									{% endif %}
+								</a>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<h4 class="fw-bold mb-3">{{ product.name }}</h4>
+							<p class="mb-3">Categorie:
+								{{ product.category.name }}</p>
+							<h5 class="fw-bold mb-3">{{ product.price }}</h5>
+
+							<div class="input-group quantity mb-5" style="width: 100px;">
+								<div class="input-group-btn">
+									<button class="btn btn-sm btn-minus rounded-circle bg-light border" onclick="updateQuantity('minus')">
+										<i class="fa fa-minus"></i>
+									</button>
+								</div>
+								<input type="text" id="quantityInput" name="quantity" class="form-control form-control-sm text-center border-0" value="1">
+								<div class="input-group-btn">
+									<button class="btn btn-sm btn-plus rounded-circle bg-light border" onclick="updateQuantity('plus')">
+										<i class="fa fa-plus"></i>
+									</button>
+								</div>
+							</div>
+
+							<a href="javascript:void(0);" onclick="addToCart()" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
+								<i class="fa fa-shopping-bag me-2 text-primary"></i>
+								Ajouter au panier
+							</a>
+						</div>
+
+
+						<div class="col-lg-12">
+							<nav>
+								<div class="nav nav-tabs mb-3">
+									<button class="nav-link active border-white border-bottom-0" type="button" role="tab" id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about" aria-controls="nav-about" aria-selected="true">Description</button>
+									{# <button class="nav-link border-white border-bottom-0" type="button" role="tab" id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission" aria-controls="nav-mission" aria-selected="false">Reviews</button> #}
+								</div>
+							</nav>
+							<div class="tab-content mb-5">
+								<div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+									<p>{{ product.description }}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-xl-3">
+					<div class="row g-4 fruite">
+						<div class="col-lg-12">
+
+							<div class="mb-4">
+								<h4>Categories</h4>
+								{% for category in categories %}
+									<ul class="list-unstyled fruite-categorie">
+										<li>
+											<div class="d-flex justify-content-between fruite-name">
+												<a href="{{ path('app_search', {'category': category.id}) }}">
+													<i class="fas fa-desktop-alt me-2"></i>
+													{{ category.name }}</a>
+												<span>({{ categoryCounts[category.id] }})</span>
+											</div>
+										</li>
+									</ul>
+								{% endfor %}
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+			<h1 class="mb-0">Related Products</h1>
+			<div class="vesitable">
+				<div class="owl-carousel vegetable-carousel justify-content-center">
+					<div class="border border-primary rounded position-relative vesitable-item">
+						{% for relatedproduct in relatedProducts %}
+							<div class="vesitable-img">
+								<img src="{{ asset('uploads/' ~ product.image) }}" alt="" class="img-fluid w-100 rounded-top" style="width: 100px; height: auto;">
+							</div>
+							<div class="p-4 pb-0 rounded-bottom">
+								<h4>{{ relatedproduct.name }}</h4>
+								<p>{{ relatedproduct.description }}</p>
+								<div class="d-flex justify-content-between flex-lg-wrap">
+									<p class="text-dark fs-5 fw-bold">{{ relatedproduct.price }}</p>
+									<a href="{{ path('app_cart_item_add_to_cart', {'productId': relatedproduct.id}) }}" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
+										<i class="fa fa-shopping-bag me-2 text-primary"></i>
+										Ajouter au panier</a>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Single Product End -->
+	<script>
+		var quantity = 1;
+
+function updateQuantity(action) {
+if (action === 'plus') {
+quantity++;
+} else if (action === 'minus' && quantity > 1) {
+quantity--;
+}
+
+document.getElementById('quantityInput').value = quantity;
+}
+
+function addToCart() { // Get the quantity from the input field
+var quantityToAdd = document.getElementById('quantityInput').value;
+
+// Redirect to the add-to-cart route with the updated quantity
+window.location.href = "{{ path('app_cart_item_add_to_cart', {'productId': product.id}) }}?quantity=" + quantityToAdd;
+}
+	</script>
+{% endblock %}

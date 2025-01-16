@@ -1,0 +1,61 @@
+{{ form_start(form, {'attr': {'class': 'tm-edit-product-form'}}) }}
+
+<div class="container tm-mt-big tm-mb-big">
+	<div class="row">
+		<div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+			<div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+				<div class="row">
+					<div class="col-12">
+						<h2 class="tm-block-title d-inline-block">{{ title|default('Ajouter produit') }}</h2>
+
+					</div>
+				</div>
+
+				<div class="row tm-edit-product-row">
+					<div class="col-xl-6 col-lg-6 col-md-12">
+						<div class="form-group mb-3">
+							{{ form_label(form.name, 'Product Name') }}
+							{{ form_widget(form.name, {'attr': {'class': 'form-control validate', 'required': true}}) }}
+						</div>
+						<div class="form-group mb-3">
+							{{ form_label(form.price, 'Price') }}
+							{{ form_widget(form.price, {'attr': {'class': 'form-control validate', 'required': true, 'type': 'number', 'step': '0.01'}}) }}
+						</div>
+						<div class="form-group mb-3">
+							{{ form_label(form.category, 'Category') }}
+							{{ form_widget(form.category, {'attr': {'class': 'custom-select tm-select-accounts', 'id': 'category'}}) }}
+						</div>
+
+						{# <div class="row"> #}
+
+						<div class="form-group mb-3 col-xs-12 col-sm-6">
+							{{ form_label(form.stock, 'Units In Stock') }}
+							{{ form_widget(form.stock, {'attr': {'class': 'form-control validate', 'required': true}}) }}
+						</div>
+						{# </div> #}
+					</div>
+					<div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+						<div class="form-group mb-3">
+							{{ form_label(form.description, 'Description') }}
+							{# <textarea class="form-control validate" rows="5" required></textarea>#}
+							{{ form_widget(form.description, {'attr': {'class': 'form-control validate', 'rows': 5, 'required': true}}) }}
+
+						</div>
+						<div class="form-group mb-3">
+							{{ form_row(form.image) }}
+						</div>
+
+					</div>
+					<div class="col-12">
+						<a href="{{ path('app_product_index') }}" class="btn btn-danger btn-block text-uppercase">Cancel</a>
+						<button type="submit" class="btn btn-primary btn-block text-uppercase">{{ button_label|default('Save') }}</button>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+{{ form_end(form) }}

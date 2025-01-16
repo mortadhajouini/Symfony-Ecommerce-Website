@@ -1,0 +1,175 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cart
+{% endblock %}
+
+{% block home %}
+<div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Cart</h1>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="{{ path('app_home') }}">Accueil</a></li>
+                <li class="breadcrumb-item active text-white">Cart</li>
+            </ol>
+        </div>
+	<!-- Cart Page Start -->
+	<div class="container-fluid py-5">
+		<div class="container py-5">
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Produits</th>
+							<th scope="col">Nom</th>
+							<th scope="col">Prix</th>
+							<th scope="col">Quantité</th>
+							<th scope="col">Total</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						{% for cartitem in cart.cartitems %}
+							<tr>
+								<th scope="row">
+									<div class="d-flex align-items-center">
+										<img src="{{ asset('uploads/' ~ cartitem.product.image) }}" class=" img-fluid me-5 rounded-circle" style=" width: 80px; height: 80px;" alt="">
+									</div>
+								</th>
+								<td>
+									<p class="mb-0 mt-4">{{ cartitem.product.name }}</p>
+								</td>
+								<td>
+									<p class="mb-0 mt-4 price" data-price="{{ cartitem.product.price }}">
+										{{ cartitem.product.price }}
+									</p>
+								</td>
+								<td>
+									<div class="input-group quantity mt-4" style="width: 100px;">
+										<div class="input-group-btn">
+											<button class="btn btn-sm btn-minus rounded-circle bg-light border" data-action="{{ path('cart_decrement', {'cartItemId': cartitem.id}) }}">
+												<i class="fa fa-minus"></i>
+											</button>
+										</div>
+										<input type="text" class="form-control form-control-sm text-center border-0" value="{{ cartitem.quantity }}" data-quantity="{{ cartitem.quantity }}">
+										<div class="input-group-btn">
+											<button class="btn btn-sm btn-plus rounded-circle bg-light border" data-action="{{ path('cart_increment', {'cartItemId': cartitem.id}) }}">
+												<i class="fa fa-plus"></i>
+											</button>
+										</div>
+									</div>
+								</td>
+								<td>
+									<p class="mb-0 mt-4">
+										<span class="total-price">{{ cartitem.product.price * cartitem.quantity }}</span>
+										DT
+									</p>
+								</td>
+								<td>
+									<button class="btn btn-md rounded-circle bg-light border mt-4">
+										<a class="fa fa-times text-danger" href="{{ path('app_cart_item_remove_from_cart', {'cartitemId': cartitem.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit?')"></a>
+									</button>
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="3">Panier vide.</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</tbody>
+			</table>
+		</div>
+		<div
+			class="mt-5">
+			<!-- Clear Cart Button -->
+			<div class="text-end">
+				<a href="{{ path('app_cart_clear', {'id': cart.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir vider le panier ?')">Vider le panier</a>
+			</div>
+		</div>
+		<div class="mt-5">
+			<input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4" placeholder="Code promo">
+			<button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">Appliquer Coupon</button>
+		</div>
+
+
+		{# Your existing HTML code #}
+		<div class="row g-4 justify-content-end mt-5">
+			<div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
+				<div class="bg-light rounded p-4">
+					<h2 class="h6 mb-4">Total du panier</h2>
+					<div class="d-flex justify-content-between mb-3">
+						<span class="fw-bold">Total:</span>
+						<span id="cart-subtotal">{{ subtotal }}
+							DT</span>
+					</div>
+					<div class="d-flex justify-content-between mb-3">
+						<span class="fw-bold">Livraison:</span>
+						<span>7.5 DT</span>
+					</div>
+					<p class="text-end small">(Livraison vers toute la Tunisie)</p>
+					<div class="border-top border-bottom d-flex justify-content-between mt-3">
+						<span class="fw-bold">Total:</span>
+						<span id="cart-total">0 DT</span>
+					</div>
+					<a href="{{ path('app_chackout') }}" >
+					<button class="btn btn-primary rounded-pill px-4 py-3 text-uppercase mt-4" type="button"  >Passer à la caisse</button></a>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+</div>
+<!-- Cart Page End -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	$(document).ready(function () { // Function to update subtotal dynamically
+function updateSubtotal() {
+var subtotal = 0;
+
+// Iterate through each row in the table
+$('.table tbody tr').each(function () {
+var total = parseFloat($(this).find('.total-price').text());
+if (!isNaN(total)) {
+subtotal += total;
+}
+});
+
+// Update the subtotal element
+$('#cart-subtotal').text(subtotal + ' DT');
+
+// Calculate total including delivery
+var total = subtotal + 7.5;
+$('#cart-total').text(total + ' DT');
+}
+
+$('.btn-plus, .btn-minus').on('click', function (e) {
+e.preventDefault();
+
+var $input = $(this).parent().parent().find('input');
+var $totalPrice = $(this).closest('tr').find('.total-price');
+
+var quantity = parseInt($input.val());
+var action = $(this).data('action');
+var newQuantity = 1; // default value
+
+if (quantity > 0) {
+$.post(action, function (data) {
+newQuantity = data.newQuantity;
+$input.val(newQuantity).data('quantity', newQuantity);
+
+// Update total price dynamically
+var priceData = $input.closest('tr').find('.price').data('price');
+var price = newQuantity * priceData;
+$totalPrice.text(price);
+
+// Update subtotal after each quantity change
+updateSubtotal();
+});
+}
+});
+
+// Call the updateSubtotal function initially
+updateSubtotal();
+});
+</script>{% endblock %}
