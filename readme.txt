@@ -1,27 +1,29 @@
-https://wampserver.aviatechno.net/
+# 🛒 Azure E-Commerce Website
 
-http://localhost/phpmyadmin/
-root
+"Azure" is a feature-rich e-commerce website built using Symfony. It allows customers to browse products, add items to their cart, and complete purchases with a smooth checkout process. The platform includes user authentication, an admin panel for managing products and orders, and integration with payment gateways. This project focuses on security, scalability, and a user-friendly experience.
 
-install composer
+## ✨ Features
 
+### User Features
+- **User Authentication**: Register, login, and manage accounts.
+- **Product Browsing**: Browse product categories, filter, and search.
+- **Shopping Cart**: Add, update, or remove products from the cart.
+- **Checkout**: Complete purchases with real-time payment gateway integration.
+- **Order History**: View past orders.
 
-https://symfony.com/download install symfony cli (env)
+### Admin Features
+- **Admin Panel**: Manage products, categories, and orders.
+- **Product Management**: Add, edit, or remove products.
+- **Order Management**: Process customer orders.
 
-new project: symfony new --webapp my_project
+### Security
+- **Data Encryption**: Secure user and transaction data.
+- **User Roles**: Different levels of access for customers and admin.
 
-run the server: symfony server:start
-
-user: php bin/console make:user
-symfony console make:auth
-php bin/console make:controller
-php bin/console make:entity
-
-php bin/console make:migration
-php bin/console doctrine:migrations:migrate
-php bin/console doctrine:schema:update --force
-
-php bin/console doctrine:database:create
-
-
-composer require vich/uploader-bundle
+## 🛠️ Tech Stack
+- **Development Framework**: Symfony
+- **Frontend**: Twig
+- **Database**: MySQL
+- **Payment Gateway**: Integration with Stripe
+- **Languages**: PHP, JavaScript
+- **CSS Framework**: Bootstrap
